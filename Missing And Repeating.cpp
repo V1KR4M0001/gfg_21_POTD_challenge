@@ -1,0 +1,61 @@
+//Given an unsorted array arr of of positive integers. One number 'A' from set {1, 2,....,n} is missing and one number 'B' occurs twice in array. Find numbers A and B.
+
+
+// Examples
+// Input: arr[] = [2, 2]
+// Output: 2 1
+// Explanation: Repeating number is 2 and smallest positive missing number is 1.
+
+// Input: arr[] = [1, 3, 3] 
+// Output: 3 2
+// Explanation: Repeating number is 3 and smallest positive missing number is 2.
+
+
+// Expected Time Complexity: O(n)
+// Expected Auxiliary Space: O(1)
+
+
+// Constraints:
+// 2 ≤ n ≤ 105
+// 1 ≤ arr[i] ≤ n
+
+//   Solution:=>
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        // code here
+        int n = arr.size();
+        long long S = ((long long)n*(n+1))/2;
+        long long Sq = (((long long)n * (n+1) * (2*n+1))) / 6;
+        long Si = 0, Sqi = 0;
+        for(int i = 0; i < n; i++) {
+            Si += arr[i];
+            Sqi += ((long long)arr[i]*arr[i]);
+        }
+        long long X_minus_Y = S - Si;
+        long long X_plus_Y = (Sq - Sqi) / X_minus_Y;
+        long long miss = (X_minus_Y + X_plus_Y) / 2;
+        long long rep = X_plus_Y - miss;
+        return {rep ,miss};
+    }
+};
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        Solution ob;
+        auto ans = ob.findTwoElement(a);
+        cout << ans[0] << " " << ans[1] << "\n";
+    }
+    return 0;
+}
